@@ -1,0 +1,5 @@
+# BigQuery Schema Validator Dependencies
+google-cloud-bigquery>=3.0.0
+google-auth>=2.0.0
+jsonschema>=4.0.0
+PyYAML>=6.0.0
