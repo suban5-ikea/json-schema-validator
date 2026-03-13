@@ -53,19 +53,19 @@ def get_bigquery_client() -> bigquery.Client:
     return bigquery.Client(credentials=credentials, project=project)
 
 
-def build_table_names(dataset_name: str, version: str) -> tuple[str, str]:
+def build_table_names(project_name: str,dataset_name: str, version: str) -> tuple[str, str]:
     """
     Build landing and invalid table names from dataset name and version.
     
     Args:
+        project_name: The BigQuery project name
         dataset_name: The BigQuery dataset name
         version: The version prefix for table names (e.g., 'v1', 'v2')
         
     Returns:
         Tuple of (landing_table, invalid_table) fully qualified names
     """
-    project = "ingka-fms-dataplatform-prod"
-    landing_table = f"{project}.{dataset_name}.{version}_landing"
+    landing_table = f"{project_name}.{dataset_name}.{version}_landing"
     invalid_table = f"{project}.{dataset_name}.{version}_invalid"
     return landing_table, invalid_table
 
