@@ -34,6 +34,7 @@ python bq_schema_validator.py <dataset_name> <version> <schema_file> <schema_nam
 
 ### Arguments
 
+- `project_name`: The bigquery project name
 - `dataset_name`: The BigQuery dataset name (without project prefix)
 - `version`: Version prefix for table names (e.g., 'v1', 'v2')
 - `schema_file`: Path to the schema specification file (YAML or JSON)
@@ -47,20 +48,20 @@ python bq_schema_validator.py <dataset_name> <version> <schema_file> <schema_nam
 
 ```bash
 # Validate records using a schema from a YAML spec file (v1 tables)
-python bq_schema_validator.py topology_bay v1 ../topology-bay.yml whm-topology-addbay-v1
+python bq_schema_validator.py <your gcp project name> <your_dataset_name> v1 <schema file absolute path> <Schema name>
 
 # Validate records using v2 tables
-python bq_schema_validator.py my_dataset v2 ../spec.json my-schema-name
+python bq_schema_validator.py my_project my_dataset v2 <schema file absolute path> <Schema name>
 
 # Preview the query without executing
-python bq_schema_validator.py topology_bay v1 ../topology-bay.yml whm-topology-addbay-v1 --dry-run
+python bq_schema_validator.py my_project my_dataset v2 <schema file absolute path> <Schema name> --dry-run
 ```
 
 ## How It Works
 
 1. Constructs table names from the dataset and version:
-   - Landing table: `ingka-fms-dataplatform-prod.<dataset_name>.<version>_landing`
-   - Invalid table: `ingka-fms-dataplatform-prod.<dataset_name>.<version>_invalid`
+   - Landing table: `<project_name>.<dataset_name>.<version>_landing`
+   - Invalid table: `<project_name>.<dataset_name>.<version>_invalid`
 
 2. Executes a query to fetch records from the landing table where:
    - The `message_id` exists in the invalid table
@@ -87,7 +88,7 @@ Example YAML structure (AsyncAPI format):
 ```yaml
 components:
   schemas:
-    whm-topology-addbay-v1:
+    schema_name:
       type: object
       required:
         - businessUnitType
